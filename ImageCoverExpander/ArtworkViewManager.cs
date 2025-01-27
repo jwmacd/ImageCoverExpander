@@ -61,6 +61,29 @@ namespace ImageCoverExpander
                 Plugin.Log.Error("Error changing artwork fields for " + levelBarTranform.name);
                 Plugin.Log.Error(e);
             }
+            CreateTextOverlay(levelBarTranform);
+        }
+
+        private void CreateTextOverlay(Transform parent)
+        {
+            // Create a new GameObject for the overlay
+            GameObject overlay = new GameObject("TextOverlay");
+            overlay.transform.SetParent(parent, false);
+
+            // Add an ImageView (or Unity UI Image) for the semi-transparent background
+            var image = overlay.AddComponent<ImageView>();
+            image.color = new Color(0f, 0f, 0f, 0.7f); // Black with 70% opacity
+
+            // Configure the RectTransform to your liking
+            RectTransform rect = overlay.GetComponent<RectTransform>();
+            // Trial-and-error these anchor values/positions to align the overlay
+            rect.anchorMin = new Vector2(0.1f, 0.1f);
+            rect.anchorMax = new Vector2(0.9f, 0.3f);
+            rect.anchoredPosition = Vector2.zero;
+            rect.sizeDelta = new Vector2(0, 0);
+
+            // For layering: overlay.transform.SetSiblingIndex([index]);
+            // Increase or decrease this index to place it behind or in front of other UI elements
         }
     }
 }

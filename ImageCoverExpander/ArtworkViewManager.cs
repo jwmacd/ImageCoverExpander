@@ -53,7 +53,7 @@ namespace ImageCoverExpander
                 var clickableImage = imageTransform.GetComponent<ClickableImage>();
                 if (clickableImage != null)
                 {
-                    clickableImage.DefaultColor = new Color(0.5f, 0.5f, 0.5f, 1);
+                    clickableImage.DefaultColor = new Color(0.4f, 0.4f, 0.4f, 1);
                 }
             }
             catch (Exception e)
@@ -61,29 +61,39 @@ namespace ImageCoverExpander
                 Plugin.Log.Error("Error changing artwork fields for " + levelBarTranform.name);
                 Plugin.Log.Error(e);
             }
-            CreateTextOverlay(levelBarTranform);
+            // CreateTextOverlay(levelBarTranform);
         }
 
-        private void CreateTextOverlay(Transform parent)
-        {
-            // Create a new GameObject for the overlay
-            GameObject overlay = new GameObject("TextOverlay");
-            overlay.transform.SetParent(parent, false);
+        //  private void CreateTextOverlay(Transform parent)
+        // {
+        //     // Create root overlay object parented to the level bar
+        //     GameObject overlay = new GameObject("TextOverlay");
+        //     overlay.transform.SetParent(parent, false);  // false = maintain world space position
+            
+        //     // Add and configure background image
+        //     var image = overlay.AddComponent<ImageView>();
+        //     image.color = new Color(0f, 0f, 0f, 0.8f); // Black with 80% opacity (RGBA)
+            
+        //     // Critical fix: Match the skew setting from main artwork modifications
+        //     // Beat Saber's ImageView has a private "_skew" field that causes parallelogram distortion
+        //     FieldAccessor<ImageView, float>.Set(ref image, "_skew", modifiedSkew); // modifiedSkew = 0
+            
+        //     // Configure positioning and size using RectTransform
+        //     RectTransform rect = overlay.GetComponent<RectTransform>();
+        //     // Anchor values relative to parent container:
+        //     // (0.05, -0.8) = 5% from left, 80% below parent's center
+        //     // (0.85, -0.2) = 85% from left, 20% below parent's center
+        //     rect.anchorMin = new Vector2(0.05f, -0.8f);
+        //     rect.anchorMax = new Vector2(0.85f, -0.2f);
+            
+        //     // Zero out position/size offsets since we're using anchor-based layout
+        //     rect.anchoredPosition = Vector2.zero;  // No positional offset from anchors
+        //     rect.sizeDelta = new Vector2(0, 0);    // No size modification beyond anchors
 
-            // Add an ImageView (or Unity UI Image) for the semi-transparent background
-            var image = overlay.AddComponent<ImageView>();
-            image.color = new Color(0f, 0f, 0f, 0.7f); // Black with 70% opacity
+        //     // Optional: Adjust render order if needed
+        //     // overlay.transform.SetSiblingIndex(1); // Example: Place behind specific elements
+            
 
-            // Configure the RectTransform to your liking
-            RectTransform rect = overlay.GetComponent<RectTransform>();
-            // Trial-and-error these anchor values/positions to align the overlay
-            rect.anchorMin = new Vector2(0.1f, 0.1f);
-            rect.anchorMax = new Vector2(0.9f, 0.3f);
-            rect.anchoredPosition = Vector2.zero;
-            rect.sizeDelta = new Vector2(0, 0);
-
-            // For layering: overlay.transform.SetSiblingIndex([index]);
-            // Increase or decrease this index to place it behind or in front of other UI elements
-        }
+        // }
     }
 }
